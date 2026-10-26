@@ -29,7 +29,7 @@ We will build an independently dual-curated gold standard for human breast cance
 
 For each dataset with a recovered subtype claim, we will measure the abundance of the canonical receptor markers (ESR1, PGR, ERBB2) in the deposited quantitative matrices and classify each claim as corroborated, contradicted, or evidentially insufficient. We will explicitly distinguish technical evaluability   whether a marker could have been observed given the experimental design and depth   from biological absence, and will characterize the underlying distributions before proposing any decision threshold
 
-##
+
 
 ![Specific Aim 2 workflow](assets/aims/Aim2_workflow.png)
 
@@ -40,7 +40,6 @@ For each dataset with a recovered subtype claim, we will measure the abundance o
 
 Validated annotations will be emitted as HUPO-PSI SDRF-Proteomics files with ontology-grounded terms, verified with the official community validator, and released with the full provenance chain   source text span, method, evidence class   under a persistent DOI, together with the pipeline required to regenerate them.
 
-##
 
 ![Specific Aim 3 workflow](assets/aims/Aim3_workflow.png)
 
@@ -54,7 +53,7 @@ Validated annotations will be emitted as HUPO-PSI SDRF-Proteomics files with ont
 A preliminary survey of 962 human breast-cancer datasets in PRIDE found a large metadata gap: molecular subtype was recoverable from free text in 32.4% of datasets, but appeared in structured machine-readable fields in only 0.3%. In other words, biologically important information often exists, but not in a form that is easy to search, compare, or reuse computationally.
 
 
-![Preliminary analysis of metadata availability](assets/preliminary/fig_preliminary_subtype_gappost.png)
+![Preliminary analysis of metadata availability](assets/preliminary/fig_preliminary_subtype_gap.png)
 
 ### Metadata reconstruction benchmark
 
@@ -98,3 +97,15 @@ The active development repository, source code, internal datasets, and ongoing a
 ## Project Status
 
 pxEnrich is an active research project under development at the Arkansas INBRE Data Science Core, University of Arkansas for Medical Sciences.
+
+### Hosted-LLM computational feasibility
+
+We performed a smoke test of the pxEnrich extraction workflow using four LLMs hosted through the National Research Platform (NRP), with five PRIDE accessions evaluated per model. The test was designed to identify infrastructure and response-format failure modes before larger-scale benchmarking, rather than to compare biological extraction accuracy.
+
+Across 20 requests, all parsed responses satisfied the expected output schema. Nine unsuccessful completions occurred exactly at the configured 800-token generation cap, indicating truncation rather than schema failure as the dominant technical failure mode under these settings. Model behavior differed substantially: gpt-oss produced schema-valid responses for all five test accessions, while qwen3 reached the token cap for all five and returned no usable content. Gemma and Kimi showed intermediate behavior.
+
+Observed median request latency ranged from 6.3 s for gpt-oss to 40.8 s for Kimi. Extrapolation to 1,000 datasets suggests that corpus-scale screening is computationally feasible when model concurrency is available, although these projections assume no queueing degradation and should not be interpreted as production runtime guarantees.
+
+![NRP hosted-LLM smoke test](assets/preliminary/fig1_nrp_smoke_diagnostic.png)
+
+**Preliminary finding:** the hosted inference infrastructure is capable of supporting pxEnrich-scale model evaluation, but generation limits and model-specific response behavior must be treated as explicit experimental variables rather than silent implementation details.
