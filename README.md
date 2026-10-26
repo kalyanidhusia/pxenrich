@@ -109,3 +109,9 @@ Observed median request latency ranged from 6.3 s for gpt-oss to 40.8 s for Kimi
 ![NRP hosted-LLM smoke test](assets/preliminary/fig1_nrp_smoke_diagnostic.png)
 
 **Preliminary finding:** the hosted inference infrastructure is capable of supporting pxEnrich-scale model evaluation, but generation limits and model-specific response behavior must be treated as explicit experimental variables rather than silent implementation details.
+
+
+## Citation / license
+
+Faith J. & Dhusia K. (2026). *pxenrich: trustworthy enrichment of public proteomics metadata.* MIT License.
+
